@@ -1,0 +1,99 @@
+﻿@model CaptchaTest.Models.FormModel
+@using CaptchaMvc.HtmlHelpers
+@using CaptchaMvc;
+
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/Javascript/CountryList.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+
+        <div class="editor-label col-sm-12">
+            <div class="col-md-2">
+                @Html.Label("First Name")
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control col-md-2" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+
+        <div class="editor-label col-sm-12">
+            <div class="col-md-2">
+                @Html.Label("Last Name")
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control col-md-2" })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+
+        <div class="editor-label col-sm-12">
+            <div class="col-md-2">
+                @Html.Label("Comment")
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Comment, new { @class = "form-control col-md-2" })
+                @Html.ValidationMessageFor(model => model.Comment)
+            </div>
+        </div>
+
+        <div class="editor-label col-sm-12">
+            <div class="col-md-2">
+                @Html.Label("Country")
+            </div>
+            <div class="col-md-2">
+                <select onchange="set_country(this,country,city_state)" size="1" name="region">
+                    <option value="" selected="selected">SELECT REGION</option>
+                    <option value=""></option>
+                    <script type="text/javascript">
+                        setRegions(this);
+                    </script>
+                </select>
+                <select name="country" size="1" disabled="disabled" onchange="set_city_state(this,city_state)"></select>
+                City/State&raquo; <select name="city_state" size="1" disabled="disabled" onchange="print_city_state(country,this)"></select>
+
+                <div id="txtregion"></div>
+                <div id="txtplacename"></div>
+                @Html.ValidationMessageFor(model => model.Country)
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            @*for numbers CAPTCHA*@
+            @*@Html.MathCaptcha()*@
+
+            @* for three characters captcha*@
+            @Html.Captcha(3)
+            
+            <p class="Error" style="color:red">  @ViewBag.ErrMessage </p>
+            <p>
+                <input type="submit" value="Send" />
+            </p>
+        </div>
+    }
+</body>
+</html>
